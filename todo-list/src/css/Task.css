@@ -1,0 +1,92 @@
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e7e6e6;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  border-left: 6px solid #007bff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s;
+}
+
+.task:hover {
+  transform: translateY(-2px);
+}
+
+.info_task {
+  flex: 1;
+}
+
+.info_task h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.info_task p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #666;
+}
+
+.status-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  cursor: default;
+}
+
+/* Status button colors */
+.status-btn.pending {
+  background-color: #ffc107;
+}
+.status-btn.in-progress {
+  background-color: #17a2b8;
+}
+.status-btn.completed {
+  background-color: #28a745;
+}
+
+.manipulat_task {
+  display: flex;
+  gap: 8px;
+  margin-left: 20px;
+  align-self: flex-end;
+}
+
+.manipulat_task button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: white;
+}
+
+.edit-btn {
+  background-color: #6c757d;
+}
+.edit-btn:hover {
+  background-color: #5a6268;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+}
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.complete-btn {
+  background-color: #28a745;
+}
+.complete-btn:hover {
+  background-color: #218838;
+}
