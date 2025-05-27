@@ -14,16 +14,47 @@ export default function Task({ task, onDelete, onComplete, onEdit }) {
         </button>
       </div>
       <div className="manipulat_task">
-        <button className="edit-btn" onClick={() => onEdit(task.id)}>
+        <button className="edit-btn" onClick={() => onEdit(task)}>
           Edit
         </button>
         <button className="delete-btn" onClick={() => onDelete(task.id)}>
           Delete
         </button>
-        <button className="complete-btn" onClick={() => onComplete(task.id)}>
-          Complete
-        </button>
+
+        {task.status === "Completed" ? (
+          <button
+            className="inprogress-btn"
+            onClick={() => onComplete(task.id, task.status)}
+          >
+            In Progress
+          </button>
+        ) : task.status === "In Progress" ? (
+          <button
+            className="pending-btn"
+            onClick={() => onComplete(task.id, task.status)}
+          >
+            Pending
+          </button>
+        ) : (
+          <button
+            className="complete-btn"
+            onClick={() => onComplete(task.id, task.status)}
+          >
+            Completed
+          </button>
+        )}
       </div>
     </div>
   );
 }
+/*
+taskStatus === "Completed" ? "In Progress": taskStatus === "In Progress" ? "Pending" : "Completed"
+//          if           return         else if                         return      else
+if(taskStatus === "Completed"){
+  return "In Progress";
+}else if(taskStatus === "In Progress"){
+  return "Pending"; 
+}else{
+  return "Completed";
+}
+  */

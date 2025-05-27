@@ -90,3 +90,11 @@
 .complete-btn:hover {
   background-color: #218838;
 }
+
+.pending-btn {
+  background-color: #ffc107;
+}
+
+.inprogress-btn {
+  background-color: #17a2b8;
+}
