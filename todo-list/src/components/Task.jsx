@@ -47,14 +47,3 @@ export default function Task({ task, onDelete, onComplete, onEdit }) {
     </div>
   );
 }
-/*
-taskStatus === "Completed" ? "In Progress": taskStatus === "In Progress" ? "Pending" : "Completed"
-//          if           return         else if                         return      else
-if(taskStatus === "Completed"){
-  return "In Progress";
-}else if(taskStatus === "In Progress"){
-  return "Pending"; 
-}else{
-  return "Completed";
-}
-  */
