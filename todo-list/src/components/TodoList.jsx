@@ -1,40 +1,74 @@
+import { useEffect, useState } from "react";
 import Task from "./Task";
-import { useState } from "react";
-import "../css/TodoList.css";
 import TaskForm from "./TaskForm";
+import EditTaskForm from "./EditTaskForm";
+import "../css/TodoList.css";
 import { v4 as uuidv4 } from "uuid";
 
 export default function TodoList() {
   const [tasks, setTasks] = useState([]);
+  const [taskToEdit, setTaskToEdit] = useState(null);
+
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    setTasks(storedTasks);
+  }, []);
+
+  const saveTasksToStorage = (updatedTasks) => {
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+  };
 
   const handleAddTask = (taskData) => {
     const newTask = { id: uuidv4(), ...taskData };
-
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+    const updatedTasks = [...tasks, newTask];
+    setTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
   };
 
   const handleDeleteTask = (taskId) => {
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+    const updatedTasks = tasks.filter((task) => task.id !== taskId);
+    setTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
   };
-  const handleEditTask = (taskId, updatedTask) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) => (task.id === taskId ? updatedTask : task))
-    );
+
+  const handleEditTask = (task) => {
+    setTaskToEdit(task);
   };
-  const handleCompleteTask = (taskId) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, status: "Completed" } : task
-      )
+
+  const handleUpdateTask = (updatedTask) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === updatedTask.id ? updatedTask : task
     );
+    setTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
+    setTaskToEdit(null); // close edit form
+  };
+
+  const triggerTaskStatus = (taskId, currentStatus) => {
+    const getNextStatus = (status) => {
+      if (status === "Completed") return "In Progress";
+      if (status === "In Progress") return "Pending";
+      return "Completed";
+    };
+
+    const updatedTasks = tasks.map((task) =>
+      task.id === taskId
+        ? { ...task, status: getNextStatus(currentStatus) }
+        : task
+    );
+
+    setTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
   };
 
   return (
     <div className="todo-list">
       <h2>My Tasks</h2>
-
-      <TaskForm onSubmit={handleAddTask} />
-
+      {taskToEdit ? (
+        <EditTaskForm task={taskToEdit} onSubmit={handleUpdateTask} />
+      ) : (
+        <TaskForm onSubmit={handleAddTask} />
+      )}
       <div className="tasks">
         {tasks.map((task) => (
           <Task
@@ -42,7 +76,7 @@ export default function TodoList() {
             task={task}
             onDelete={handleDeleteTask}
             onEdit={handleEditTask}
-            onComplete={handleCompleteTask}
+            onComplete={triggerTaskStatus}
           />
         ))}
       </div>
